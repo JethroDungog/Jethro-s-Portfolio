@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ivan Jethro Dungog | Industry-Ready AI Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --cursor-x: 0px; --cursor-y: 0px; }
+        body { background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+        
+        /* Interactive Cursor Spotlight */
+        .cursor-glow {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            background: radial-gradient(500px circle at var(--cursor-x) var(--cursor-y), rgba(56, 189, 248, 0.12), transparent 80%);
+        }
+
+        .glass { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .industry-border { border: 1px solid rgba(56, 189, 248, 0.2); }
+        .card-hover:hover { border-color: rgba(56, 189, 248, 0.5); transform: translateY(-8px); box-shadow: 0 20px 40px -20px rgba(56, 189, 248, 0.3); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        @keyframes pulse-slow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e; animation: pulse-slow 2s infinite; }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <div class="cursor-glow" id="glow"></div>
+
+    <nav class="fixed w-full z-50 py-6 px-8 flex justify-between items-center">
+        <h1 class="text-xl font-black tracking-tighter">IVAN <span class="text-blue-500">JETHRO</span></h1>
+        <div class="flex items-center gap-3 glass px-5 py-2 rounded-full text-xs font-bold tracking-widest text-gray-300">
+            <div class="status-dot"></div> READY FOR INDUSTRY
+        </div>
+    </nav>
+
+    <header class="relative min-h-screen flex items-center justify-center px-4">
+        <div class="relative z-10 text-center">
+            <h2 class="text-blue-400 text-sm font-bold tracking-[0.4em] uppercase mb-6">AI Systems & Project Leadership</h2>
+            <h1 class="text-6xl md:text-9xl font-black mb-8 tracking-tighter">BUILT<br><span class="gradient-text text-white">WITH PURPOSE.</span></h1>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed mb-12">
+                I am <span class="text-white font-medium">Ivan Jethro Dungog</span>. Currently architecting RAG solutions at Dealogikal and leading technical teams. I build software that thinks and systems that work.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-6">
+                <a href="#projects" class="px-12 py-4 bg-white text-black font-black rounded-full hover:scale-105 transition-transform">VIEW SYSTEMS</a>
+                <a href="#contact" class="px-12 py-4 glass text-white font-black rounded-full border border-white/10 hover:bg-white/5 transition-all">LET'S CONNECT</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="projects" class="py-32 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-end mb-16">
+                <div>
+                    <h3 class="text-5xl font-black mb-4">SELECTED <span class="text-blue-500">WORKS</span></h3>
+                    <p class="text-gray-500">Deployed solutions and architectural implementations.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="glass p-12 rounded-[3rem] card-hover industry-border relative overflow-hidden group">
+                    <div class="relative z-10">
+                        <div class="text-blue-500 text-xs font-black tracking-widest uppercase mb-6">Active Implementation</div>
+                        <h4 class="text-3xl font-bold mb-4">RAG System Engineer <br><span class="text-gray-500">@ Dealogikal</span></h4>
+                        <p class="text-gray-400 mb-8 leading-relaxed">Developing high-precision Retrieval-Augmented Generation architectures. Specialized in optimizing vector embeddings and data-grounding pipelines to eliminate LLM hallucinations.</p>
+                        <div class="flex gap-4">
+                            <i class="fab fa-python text-2xl text-gray-500"></i>
+                            <i class="fas fa-database text-2xl text-gray-500"></i>
+                            <i class="fas fa-brain text-2xl text-gray-500"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass p-12 rounded-[3rem] card-hover border-white/5">
+                    <div class="text-purple-500 text-xs font-black tracking-widest uppercase mb-6">Capstone Leadership</div>
+                    <h4 class="text-3xl font-bold mb-4">KODI CODE <br><span class="text-gray-500">Project Manager</span></h4>
+                    <p class="text-gray-400 mb-8 leading-relaxed">Leading the end-to-end strategy for an intelligent programming plagiarism checker. Coordinating development sprints and ensuring rigorous system validation.</p>
+                    <div class="flex gap-4">
+                        <i class="fas fa-users-cog text-2xl text-gray-500"></i>
+                        <i class="fas fa-code-branch text-2xl text-gray-500"></i>
+                        <i class="fas fa-file-contract text-2xl text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 bg-blue-600/5">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-2xl font-bold mb-12">TECHNICAL STACK</h3>
+            <div class="flex flex-wrap justify-center gap-y-8 gap-x-12 opacity-60">
+                <span class="font-black tracking-widest">PYTHON</span>
+                <span class="font-black tracking-widest">RAG ARCHITECTURE</span>
+                <span class="font-black tracking-widest">AGILE MGMT</span>
+                <span class="font-black tracking-widest">SYSTEM DESIGN</span>
+                <span class="font-black tracking-widest">VECTOR DATABASES</span>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="py-32 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl md:text-7xl font-black mb-12 tracking-tighter">READY TO <br><span class="text-blue-500">COLLABORATE?</span></h2>
+            <div class="space-y-4 mb-16">
+                <p class="text-2xl font-medium">dungogjethro@gmail.com</p>
+                <p class="text-2xl font-medium text-gray-500">+63 992 633 3771</p>
+            </div>
+            <div class="pt-12 border-t border-white/5 text-[10px] tracking-[0.5em] text-gray-600 uppercase">
+                Ivan Jethro Dungog • BSIT • UCLM
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const glow = document.getElementById('glow');
+        window.addEventListener('mousemove', (e) => {
+            document.documentElement.style.setProperty('--cursor-x', e.clientX + 'px');
+            document.documentElement.style.setProperty('--cursor-y', e.clientY + 'px');
+        });
+    </script>
+</body>
+</html>
