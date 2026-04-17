@@ -1,136 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ivan Jethro Dungog | Industry-Ready AI Engineer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description"
+        content="Portfolio of Ivan Jethro Dungog, a technical problem solver and AI Systems Engineer specializing in RAG architectures, Python, n8n, and Vector Databases.">
+    <title>Ivan Jethro Dungog | AI Systems Engineer</title>
+    <!-- Tailwind CSS with Typography plugin for rendering AI markdown -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Marked.js for secure markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        :root { --cursor-x: 0px; --cursor-y: 0px; }
-        body { background-color: #020617; color: #f8fafc; overflow-x: hidden; }
-        
-        /* Interactive Cursor Spotlight */
-        .cursor-glow {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 9999;
-            background: radial-gradient(500px circle at var(--cursor-x) var(--cursor-y), rgba(56, 189, 248, 0.12), transparent 80%);
+        :root {
+            --cursor-x: 0px;
+            --cursor-y: 0px;
         }
 
-        .glass { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .industry-border { border: 1px solid rgba(56, 189, 248, 0.2); }
-        .card-hover:hover { border-color: rgba(56, 189, 248, 0.5); transform: translateY(-8px); box-shadow: 0 20px 40px -20px rgba(56, 189, 248, 0.3); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        @keyframes pulse-slow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e; animation: pulse-slow 2s infinite; }
+        body {
+            background-color: #090514;
+            /* Deep Violet / Midnight Black */
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Interactive Cursor Spotlight - Changed to a haunting Teal */
+        .cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            background: radial-gradient(500px circle at var(--cursor-x) var(--cursor-y), rgba(45, 212, 191, 0.08), transparent 80%);
+        }
+
+        /* Disable cursor glow on touch devices */
+        @media (pointer: coarse) {
+            .cursor-glow {
+                display: none !important;
+            }
+        }
+
+        .glass {
+            background: rgba(20, 15, 35, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Modern AI Gradient: Teal -> Indigo -> Amethyst */
+        .gradient-text {
+            background: linear-gradient(135deg, #2dd4bf, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .industry-border {
+            border: 1px solid rgba(45, 212, 191, 0.2);
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            border-color: rgba(45, 212, 191, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -20px rgba(45, 212, 191, 0.2);
+        }
+
+        @keyframes pulse-slow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Status dot updated to Teal */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2dd4bf;
+            box-shadow: 0 0 10px #2dd4bf;
+            animation: pulse-slow 2s infinite;
+        }
+
+        /* Custom Scrollbar */
+        #chat-history::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #chat-history::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        #chat-history::-webkit-scrollbar-thumb {
+            background: rgba(45, 212, 191, 0.3);
+            border-radius: 10px;
+        }
+
+        /* Remove default margin from markdown paragraphs in chat */
+        .prose p:last-child {
+            margin-bottom: 0;
+        }
     </style>
 </head>
+
 <body class="font-sans antialiased">
     <div class="cursor-glow" id="glow"></div>
 
-    <nav class="fixed w-full z-50 py-6 px-8 flex justify-between items-center">
-        <h1 class="text-xl font-black tracking-tighter">IVAN <span class="text-blue-500">JETHRO</span></h1>
-        <div class="flex items-center gap-3 glass px-5 py-2 rounded-full text-xs font-bold tracking-widest text-gray-300">
-            <div class="status-dot"></div> READY FOR INDUSTRY
+    <nav
+        class="fixed w-full z-50 py-4 px-4 md:py-6 md:px-8 flex justify-between items-center bg-[#090514]/50 backdrop-blur-sm border-b border-white/5">
+        <h1 class="text-lg md:text-xl font-black tracking-tighter">IVAN <span class="text-teal-400">JETHRO</span></h1>
+
+        <div class="flex items-center gap-4">
+            <!-- Social Links -->
+            <div class="hidden md:flex gap-4 mr-4 border-r border-white/10 pr-6">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors" title="GitHub"><i
+                        class="fab fa-github text-lg"></i></a>
+                <a href="https://www.linkedin.com/in/dungog-jethro-c-0b940638a" target="_blank"
+                    rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors"
+                    title="LinkedIn"><i class="fab fa-linkedin text-lg"></i></a>
+            </div>
+
+            <div
+                class="flex items-center gap-2 md:gap-3 glass px-3 py-1.5 md:px-5 md:py-2 rounded-full text-[10px] md:text-xs font-bold tracking-widest text-gray-300">
+                <div class="status-dot"></div> READY
+            </div>
         </div>
     </nav>
 
-    <header class="relative min-h-screen flex items-center justify-center px-4">
-        <div class="relative z-10 text-center">
-            <h2 class="text-blue-400 text-sm font-bold tracking-[0.4em] uppercase mb-6">AI Systems & Project Leadership</h2>
-            <h1 class="text-6xl md:text-9xl font-black mb-8 tracking-tighter">BUILT<br><span class="gradient-text text-white">WITH PURPOSE.</span></h1>
-            <p class="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed mb-12">
-                I am <span class="text-white font-medium">Ivan Jethro Dungog</span>. Currently architecting RAG solutions at Dealogikal and leading technical teams. I build software that thinks and systems that work.
+    <header class="relative min-h-screen flex items-center justify-center px-6 py-20">
+        <div class="relative z-10 text-center mt-10">
+            <h2
+                class="text-teal-400/80 text-xs md:text-sm font-bold tracking-[0.3em] md:tracking-[0.4em] uppercase mb-4 md:mb-6">
+                AI Systems & Technical Problem Solving
+            </h2>
+            <h1 class="text-5xl md:text-9xl font-black mb-6 md:mb-8 tracking-tighter">BUILT<br>
+                <span class="gradient-text text-white">WITH PURPOSE.</span>
+            </h1>
+            <p class="text-gray-400 max-w-2xl mx-auto text-base md:text-xl leading-relaxed mb-10 md:mb-12">
+                I am <span class="text-white font-medium">Ivan Jethro Dungog</span>. Currently architecting RAG
+                solutions at Dealogikal and leading technical teams. I build software that thinks and systems that work.
             </p>
-            <div class="flex flex-col md:flex-row justify-center gap-6">
-                <a href="#projects" class="px-12 py-4 bg-white text-black font-black rounded-full hover:scale-105 transition-transform">VIEW SYSTEMS</a>
-                <a href="#contact" class="px-12 py-4 glass text-white font-black rounded-full border border-white/10 hover:bg-white/5 transition-all">LET'S CONNECT</a>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
+                <a href="#projects"
+                    class="px-8 py-4 md:px-12 bg-white text-black text-sm md:text-base font-black rounded-full hover:scale-105 transition-transform">
+                    VIEW SYSTEMS
+                </a>
+                <a href="#contact"
+                    class="px-8 py-4 md:px-12 glass text-white text-sm md:text-base font-black rounded-full border border-white/10 hover:bg-white/5 transition-all">
+                    LET'S CONNECT
+                </a>
             </div>
         </div>
     </header>
 
-    <section id="projects" class="py-32 px-6">
-<div class="max-w-6xl mx-auto">
-<div class="flex justify-between items-end mb-16">
-<div>
-<h3 class="text-5xl font-black mb-4">SELECTED <span class="text-blue-500">WORKS</span></h3>
-<p class="text-gray-500">Deployed solutions and architectural implementations.</p>
-</div>
-</div>
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-<div class="glass p-10 rounded-[3rem] card-hover industry-border relative overflow-hidden group">
-<div class="relative z-10">
-<div class="text-blue-500 text-xs font-black tracking-widest uppercase mb-6">Active Implementation</div>
-<h4 class="text-2xl font-bold mb-4">RAG System Engineer <br><span class="text-gray-500">@ Dealogikal</span></h4>
-<p class="text-sm text-gray-400 mb-8 leading-relaxed">Developing high-precision Retrieval-Augmented Generation architectures. Specialized in optimizing vector embeddings and data-grounding pipelines.</p>
-<div class="flex gap-4">
-<i class="fab fa-python text-xl text-gray-500"></i>
-<i class="fas fa-database text-xl text-gray-500"></i>
-<i class="fas fa-brain text-xl text-gray-500"></i>
-</div>
-</div>
-</div>
+    <section id="projects" class="py-20 md:py-32 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6">
+                <div>
+                    <h3 class="text-4xl md:text-5xl font-black mb-2 md:mb-4">SELECTED <span
+                            class="text-teal-400">WORKS</span></h3>
+                    <p class="text-sm md:text-base text-gray-500">Deployed solutions and architectural implementations.
+                    </p>
+                </div>
+            </div>
 
-<div class="glass p-10 rounded-[3rem] card-hover border-white/5">
-<div class="text-purple-500 text-xs font-black tracking-widest uppercase mb-6">Capstone Leadership</div>
-<h4 class="text-2xl font-bold mb-4">KODI CODE <br><span class="text-gray-500">Project Manager</span></h4>
-<p class="text-sm text-gray-400 mb-8 leading-relaxed">Leading the end-to-end strategy for an intelligent programming plagiarism checker. Coordinating development sprints and system validation.</p>
-<div class="flex gap-4">
-<i class="fas fa-users-cog text-xl text-gray-500"></i>
-<i class="fas fa-code-branch text-xl text-gray-500"></i>
-</div>
-</div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                <!-- Project 1 -->
+                <div
+                    class="glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] card-hover industry-border relative overflow-hidden group flex flex-col h-full">
+                    <div class="relative z-10 flex-grow">
+                        <div class="flex justify-between items-start mb-4 md:mb-6">
+                            <div class="text-teal-400 text-[10px] md:text-xs font-black tracking-widest uppercase">
+                                Active Implementation</div>
+                            <!-- Local implementation, no external link -->
+                        </div>
+                        <h4 class="text-xl md:text-2xl font-bold mb-4">Dealogikal Compliance AI-Assistant <br><span
+                                class="text-gray-500 text-lg font-normal">AI Engineer @ Dealogikal</span></h4>
+                        <p class="text-sm text-gray-400 mb-8 leading-relaxed">Developing Multi-Modal Agentic RAG
+                            (Retrieval-Augmented Generation) System for Regulatory Compliance. Specialized in optimizing
+                            vector embeddings and data-grounding pipelines.</p>
+                    </div>
+                    <div class="flex gap-4 mt-auto">
+                        <i class="fab fa-python text-xl text-gray-500" title="Python"></i>
+                        <i class="fas fa-database text-xl text-gray-500" title="Vector Databases"></i>
+                        <i class="fas fa-project-diagram text-xl text-gray-500" title="n8n Workflows"></i>
+                        <i class="fas fa-brain text-xl text-gray-500" title="AI Logic"></i>
+                    </div>
+                </div>
 
-<div class="glass p-10 rounded-[3rem] card-hover border-white/5">
-<div class="text-emerald-500 text-xs font-black tracking-widest uppercase mb-6">Client Solution</div>
-<h4 class="text-2xl font-bold mb-4">Aella & Emman <br><span class="text-gray-500">Web Developer</span></h4>
-<p class="text-sm text-gray-400 mb-8 leading-relaxed">Designed and deployed a professional business portfolio for an advertising firm. Integrated a seamless Gmail-based inquiry system for lead generation.</p>
-<div class="flex gap-4">
-<i class="fas fa-desktop text-xl text-gray-500"></i>
-<i class="fas fa-envelope-open-text text-xl text-gray-500"></i>
-<i class="fas fa-paint-brush text-xl text-gray-500"></i>
-</div>
-</div>
-</div>
-</div>
-</section>
+                <!-- Project 2 -->
+                <div
+                    class="glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] card-hover border-white/5 flex flex-col h-full">
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start mb-4 md:mb-6">
+                            <div class="text-indigo-400 text-[10px] md:text-xs font-black tracking-widest uppercase">
+                                Capstone Leadership</div>
+                            <a href="#" class="text-gray-500 hover:text-white transition-colors"><i
+                                    class="fab fa-github"></i></a>
+                        </div>
+                        <h4 class="text-xl md:text-2xl font-bold mb-4">KODI CODE <br><span
+                                class="text-gray-500 text-lg font-normal">Project Manager</span></h4>
+                        <p class="text-sm text-gray-400 mb-8 leading-relaxed">Leading the end-to-end strategy for an
+                            intelligent programming plagiarism checker. Coordinating development sprints and system
+                            validation.</p>
+                    </div>
+                    <div class="flex gap-4 mt-auto">
+                        <i class="fas fa-users-cog text-xl text-gray-500"></i>
+                        <i class="fas fa-code-branch text-xl text-gray-500"></i>
+                    </div>
+                </div>
 
-    <section class="py-32 px-6 bg-blue-600/5">
-        <div class="max-w-4xl mx-auto text-center">
-            <h3 class="text-2xl font-bold mb-12">TECHNICAL STACK</h3>
-            <div class="flex flex-wrap justify-center gap-y-8 gap-x-12 opacity-60">
-                <span class="font-black tracking-widest">PYTHON</span>
-                <span class="font-black tracking-widest">RAG ARCHITECTURE</span>
-                <span class="font-black tracking-widest">AGILE MGMT</span>
-                <span class="font-black tracking-widest">SYSTEM DESIGN</span>
-                <span class="font-black tracking-widest">VECTOR DATABASES</span>
+                <!-- Project 3 -->
+                <div
+                    class="glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] card-hover border-white/5 flex flex-col h-full">
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start mb-4 md:mb-6">
+                            <div class="text-purple-400 text-[10px] md:text-xs font-black tracking-widest uppercase">
+                                Client Solution</div>
+                            <a href="https://foraellaandemman01-ui.github.io/FOR-AELLA-EMMAN/" target="_blank"
+                                rel="noopener noreferrer" class="text-gray-500 hover:text-white transition-colors"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                        <h4 class="text-xl md:text-2xl font-bold mb-4">Aella & Emman <br><span
+                                class="text-gray-500 text-lg font-normal">Web Developer</span></h4>
+                        <p class="text-sm text-gray-400 mb-8 leading-relaxed">Designed and deployed a professional
+                            business portfolio for a signage making firm. Integrated a seamless Gmail-based inquiry
+                            system for lead generation.</p>
+                    </div>
+                    <div class="flex gap-4 mt-auto">
+                        <i class="fas fa-desktop text-xl text-gray-500"></i>
+                        <i class="fas fa-envelope-open-text text-xl text-gray-500"></i>
+                        <i class="fas fa-paint-brush text-xl text-gray-500"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer id="contact" class="py-32 px-6">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-5xl md:text-7xl font-black mb-12 tracking-tighter">READY TO <br><span class="text-blue-500">COLLABORATE?</span></h2>
-            <div class="space-y-4 mb-16">
-                <p class="text-2xl font-medium">dungogjethro@gmail.com</p>
-                <p class="text-2xl font-medium text-gray-500">+63 992 633 3771</p>
+    <!-- Technical Stack Section -->
+    <section class="py-20 md:py-32 px-6 bg-gradient-to-b from-transparent to-[#130b2c]/30">
+        <div class="max-w-5xl mx-auto text-center">
+            <h3 class="text-xl md:text-2xl font-bold mb-10 md:mb-12 text-white/90">CORE ARCHITECTURE</h3>
+            <div class="flex flex-wrap justify-center gap-y-6 md:gap-y-8 gap-x-6 md:gap-x-12 opacity-60">
+                <span
+                    class="text-xs md:text-base font-black tracking-widest hover:text-teal-400 hover:opacity-100 transition-all cursor-default">PYTHON</span>
+                <span
+                    class="text-xs md:text-base font-black tracking-widest hover:text-indigo-400 hover:opacity-100 transition-all cursor-default">RAG
+                    ARCHITECTURE</span>
+                <span
+                    class="text-xs md:text-base font-black tracking-widest hover:text-purple-400 hover:opacity-100 transition-all cursor-default">N8N
+                    AUTOMATION</span>
+                <span
+                    class="text-xs md:text-base font-black tracking-widest hover:text-teal-400 hover:opacity-100 transition-all cursor-default">AGILE
+                    MGMT</span>
+                <span
+                    class="text-xs md:text-base font-black tracking-widest hover:text-indigo-400 hover:opacity-100 transition-all cursor-default">SYSTEM
+                    DESIGN</span>
+                <span
+                    class="text-xs md:text-base font-black tracking-widest hover:text-purple-400 hover:opacity-100 transition-all cursor-default">VECTOR
+                    DATABASES</span>
             </div>
-            <div class="pt-12 border-t border-white/5 text-[10px] tracking-[0.5em] text-gray-600 uppercase">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="py-20 md:py-32 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-7xl font-black mb-8 md:mb-12 tracking-tighter">READY TO <br>
+                <span class="text-teal-400">COLLABORATE?</span>
+            </h2>
+            <div class="space-y-4 mb-12 md:mb-16">
+                <!-- Email fixed to be clickable -->
+                <a href="mailto:dungogjethro@gmail.com"
+                    class="block text-xl md:text-2xl font-medium hover:text-teal-400 transition-colors break-words">
+                    dungogjethro@gmail.com
+                </a>
+                <p class="text-xl md:text-2xl font-medium text-gray-500">+63 992 633 3771</p>
+
+                <!-- Social links added to footer -->
+                <div class="flex justify-center gap-6 pt-6">
+                    <a href="#"
+                        class="w-12 h-12 rounded-full glass flex items-center justify-center text-gray-400 hover:text-white hover:border-teal-400/50 transition-all"><i
+                            class="fab fa-github text-xl"></i></a>
+                    <a href="https://www.linkedin.com/in/dungog-jethro-c-0b940638a" target="_blank"
+                        rel="noopener noreferrer"
+                        class="w-12 h-12 rounded-full glass flex items-center justify-center text-gray-400 hover:text-white hover:border-teal-400/50 transition-all"><i
+                            class="fab fa-linkedin text-xl"></i></a>
+                </div>
+            </div>
+            <div
+                class="pt-8 md:pt-12 border-t border-white/5 text-[8px] md:text-[10px] tracking-[0.3em] md:tracking-[0.5em] text-gray-600 uppercase">
                 Ivan Jethro Dungog • BSIT • UCLM
             </div>
         </div>
     </footer>
 
+    <!-- AI Widget Wrapper -->
+    <div id="ai-widget"
+        class="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50 flex flex-col items-end gap-3 md:gap-4 pointer-events-none">
+
+        <!-- Chat Box -->
+        <div id="ai-chat-box"
+            class="hidden glass w-[calc(100vw-2rem)] sm:w-96 md:w-[28rem] rounded-2xl border border-white/20 overflow-hidden flex flex-col transition-all origin-bottom-right shadow-2xl pointer-events-auto">
+
+            <!-- Advanced Header -->
+            <div
+                class="bg-gradient-to-r from-teal-500/20 to-indigo-500/20 p-3 md:p-4 border-b border-white/10 flex justify-between items-center backdrop-blur-md">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="relative w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#090514] border border-teal-500/50 flex items-center justify-center shadow-[0_0_10px_rgba(45,212,191,0.2)] overflow-hidden">
+                        <img src="./profile.png" alt="Ivan Jethro" class="object-cover w-full h-full" id="bot-avatar-header">
+                        <span
+                            class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-teal-400 border-2 border-[#090514] rounded-full z-10"></span>
+                    </div>
+                    <div>
+                        <h4 class="text-xs md:text-sm font-bold text-white tracking-wide">IVAN Assistant</h4>
+                        <p
+                            class="text-[9px] md:text-[10px] text-teal-300 font-medium tracking-wider flex items-center gap-1 mt-0.5">
+                            <span class="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse"></span> CONNECTED
+                        </p>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button class="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5"><i
+                            class="fas fa-expand-alt text-xs"></i></button>
+                    <button onclick="toggleChat()"
+                        class="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/5"><i
+                            class="fas fa-times text-sm"></i></button>
+                </div>
+            </div>
+
+            <!-- Chat History -->
+            <div id="chat-history"
+                class="p-4 md:p-5 h-[60vh] sm:h-[24rem] overflow-y-auto text-xs md:text-sm space-y-5 flex flex-col bg-[#05020a]/90 relative">
+
+                <!-- Initial Greeting & Quick Replies -->
+                <div class="flex gap-3 max-w-[95%]">
+                    <!-- AI Avatar -->
+                    <div
+                        class="w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center shrink-0 border border-teal-500/30 text-teal-400 mt-1 overflow-hidden">
+                        <img src="./profile.png" alt="Ivan" class="object-cover w-full h-full object-top">
+                    </div>
+
+                    <!-- AI Message Bubble -->
+                    <div class="flex flex-col gap-2 w-full">
+                        <div
+                            class="bg-white/5 border border-white/10 p-4 md:p-5 rounded-2xl rounded-tl-none text-gray-300 leading-relaxed shadow-sm">
+                            <h4 class="text-white font-bold mb-1 text-sm md:text-base">Hi! I'm Ivan's AI 👋</h4>
+                            <p class="text-xs text-gray-400 mb-4">Your interactive guide to the portfolio.</p>
+                            <p class="mb-4 text-sm font-medium text-white/90">What would you like to explore?</p>
+
+                            <!-- Quick Action Pills -->
+                            <div class="flex flex-col gap-2.5">
+                                <button onclick="sendQuickReply('Tell me about your background and experience.')"
+                                    class="w-full text-left px-4 py-3 rounded-xl border border-white/10 hover:border-teal-400/50 hover:bg-teal-400/10 transition-all duration-300 flex items-center gap-3 group">
+                                    <span
+                                        class="bg-blue-500/20 p-1.5 rounded-lg text-blue-400 group-hover:scale-110 transition-transform"><i
+                                            class="fas fa-user"></i></span>
+                                    <span class="font-medium text-gray-300 group-hover:text-white">About Me</span>
+                                </button>
+
+                                <button
+                                    onclick="sendQuickReply('Can you elaborate on your technology stack and RAG architecture skills?')"
+                                    class="w-full text-left px-4 py-3 rounded-xl border border-white/10 hover:border-indigo-400/50 hover:bg-indigo-400/10 transition-all duration-300 flex items-center gap-3 group">
+                                    <span
+                                        class="bg-indigo-500/20 p-1.5 rounded-lg text-indigo-400 group-hover:scale-110 transition-transform"><i
+                                            class="fas fa-brain"></i></span>
+                                    <span class="font-medium text-gray-300 group-hover:text-white">Tech Stack</span>
+                                </button>
+
+                                <button onclick="sendQuickReply('What are some of the key projects you have built?')"
+                                    class="w-full text-left px-4 py-3 rounded-xl border border-white/10 hover:border-purple-400/50 hover:bg-purple-400/10 transition-all duration-300 flex items-center gap-3 group">
+                                    <span
+                                        class="bg-purple-500/20 p-1.5 rounded-lg text-purple-400 group-hover:scale-110 transition-transform"><i
+                                            class="fas fa-rocket"></i></span>
+                                    <span class="font-medium text-gray-300 group-hover:text-white">Projects</span>
+                                </button>
+
+                                <button onclick="sendQuickReply('How can I contact Jethro for collaboration?')"
+                                    class="w-full text-left px-4 py-3 rounded-xl border border-white/10 hover:border-teal-400/50 hover:bg-teal-400/10 transition-all duration-300 flex items-center gap-3 group">
+                                    <span
+                                        class="bg-teal-500/20 p-1.5 rounded-lg text-teal-400 group-hover:scale-110 transition-transform"><i
+                                            class="fas fa-envelope"></i></span>
+                                    <span class="font-medium text-gray-300 group-hover:text-white">Contact &
+                                        Connect</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div
+                class="p-3 md:p-4 border-t border-white/10 bg-[#090514] flex gap-2 items-center relative z-10 box-shadow-[0_-10px_20px_rgba(0,0,0,0.3)]">
+                <div class="flex-grow relative">
+                    <input type="text" id="ai-input" placeholder="Ask anything..."
+                        class="w-full bg-white/5 border border-white/10 rounded-full text-xs md:text-sm text-white placeholder-gray-500 outline-none pl-4 pr-10 py-3 focus:border-teal-500/50 focus:bg-white/10 transition-all"
+                        onkeypress="handleKeyPress(event)">
+                </div>
+                <button onclick="sendQuery()"
+                    class="w-10 h-10 rounded-full bg-teal-500 hover:bg-teal-400 text-white flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                    id="send-btn">
+                    <i class="fas fa-paper-plane text-sm md:text-base -ml-0.5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Toggle Button with Light Effect -->
+        <div class="relative group">
+            <!-- Animated Sonar & Aura -->
+            <div
+                class="absolute -inset-2 bg-gradient-to-r from-teal-400 to-indigo-500 rounded-full blur-md opacity-60 animate-pulse pointer-events-none">
+            </div>
+            <div
+                class="absolute inset-0 bg-teal-400 rounded-full animate-ping opacity-30 pointer-events-none duration-[3000ms]">
+            </div>
+
+            <button onclick="toggleChat()"
+                class="relative z-10 w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-tr from-indigo-600 to-teal-500 hover:to-teal-400 text-white shadow-[0_0_30px_rgba(45,212,191,0.6)] transition-all hover:scale-105 active:scale-95 flex items-center justify-center pointer-events-auto border border-white/20">
+                <i class="fas fa-comment-dots text-xl md:text-2xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script>
+        // Cursor Glow Logic
         const glow = document.getElementById('glow');
         window.addEventListener('mousemove', (e) => {
             document.documentElement.style.setProperty('--cursor-x', e.clientX + 'px');
             document.documentElement.style.setProperty('--cursor-y', e.clientY + 'px');
         });
+
+        // Configure Marked.js for secure markdown parsing
+        marked.setOptions({
+            breaks: true, // Convert \n to <br> naturally
+            gfm: true     // Enable Github Flavored Markdown (tables, etc.)
+        });
+
+        // AI Chat Logic
+        const WORKER_URL = "https://jetai.jethrodungog12.workers.dev";
+        const chatBox = document.getElementById('ai-chat-box');
+        const chatHistory = document.getElementById('chat-history');
+        const inputField = document.getElementById('ai-input');
+        const sendBtn = document.getElementById('send-btn');
+        let isWaitingForResponse = false;
+
+        function toggleChat() {
+            chatBox.classList.toggle('hidden');
+            if (!chatBox.classList.contains('hidden')) {
+                setTimeout(() => inputField.focus(), 50);
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter' && !isWaitingForResponse) {
+                sendQuery();
+            }
+        }
+
+        // Helper func to send queries from action pills
+        function sendQuickReply(text) {
+            if (isWaitingForResponse) return;
+            inputField.value = text;
+            sendQuery();
+        }
+
+        function appendMessage(text, isUser) {
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.className = `flex gap-3 max-w-[95%] ${isUser ? 'self-end flex-row-reverse' : 'self-start'}`;
+
+            const msgDiv = document.createElement('div');
+
+            if (isUser) {
+                // User styling
+                msgDiv.className = 'p-3 md:p-4 rounded-2xl rounded-tr-none text-xs md:text-sm leading-relaxed bg-indigo-500/90 text-white shadow-md border border-indigo-400/20';
+                msgDiv.textContent = text;
+
+                const innerWrap = document.createElement('div');
+                innerWrap.className = 'flex flex-col gap-2 w-full items-end';
+                innerWrap.appendChild(msgDiv);
+                wrapperDiv.appendChild(innerWrap);
+            } else {
+                // AI Styling with Avatar Support
+                const avatarHTML = `<div class="w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center shrink-0 border border-teal-500/30 text-teal-400 mt-1 overflow-hidden"><img src="./profile.png" alt="Ivan" class="object-cover w-full h-full object-top"></div>`;
+
+                msgDiv.className = 'p-3 md:p-4 rounded-2xl rounded-tl-none text-xs md:text-sm leading-relaxed bg-white/5 border border-white/10 text-gray-200 prose prose-invert prose-sm overflow-hidden';
+                msgDiv.innerHTML = marked.parse(text);
+
+                wrapperDiv.innerHTML = avatarHTML;
+                const innerWrap = document.createElement('div');
+                innerWrap.className = 'flex flex-col gap-2 w-full';
+                innerWrap.appendChild(msgDiv);
+                wrapperDiv.appendChild(innerWrap);
+            }
+
+            chatHistory.appendChild(wrapperDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        async function sendQuery() {
+            const prompt = inputField.value.trim();
+            if (!prompt || isWaitingForResponse) return;
+
+            isWaitingForResponse = true;
+            inputField.disabled = true;
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = "<i class='fas fa-circle-notch fa-spin text-sm md:text-base -ml-0.5'></i>";
+
+            appendMessage(prompt, true);
+            inputField.value = '';
+
+            const loadingId = 'loading-' + Date.now();
+            const loadingWrapper = document.createElement('div');
+            loadingWrapper.id = loadingId;
+            loadingWrapper.className = "flex gap-3 max-w-[95%] self-start";
+            loadingWrapper.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center shrink-0 border border-teal-500/30 text-teal-400 mt-1 overflow-hidden">
+                    <img src="./profile.png" alt="Ivan" class="object-cover w-full h-full object-top">
+                </div>
+                <div class="bg-white/5 border border-white/10 p-3 md:p-4 rounded-2xl rounded-tl-none flex items-center gap-2">
+                    <span class="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
+                    <span class="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
+                    <span class="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+                </div>
+            `;
+            chatHistory.appendChild(loadingWrapper);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt })
+                });
+
+                if (!response.ok) throw new Error("Network response was not ok");
+
+                const data = await response.json();
+                document.getElementById(loadingId).remove();
+
+                let aiText = data.response || "No response received.";
+                // Automatically convert any $ signs to Peso (₱) before displaying
+                aiText = aiText.replace(/\$/g, '₱');
+
+                appendMessage(aiText, false);
+
+            } catch (error) {
+                if (document.getElementById(loadingId)) {
+                    document.getElementById(loadingId).remove();
+                }
+                appendMessage("**System Error:** Unable to reach the AI endpoint. Please try again later.", false);
+                console.error("AI Error:", error);
+            } finally {
+                isWaitingForResponse = false;
+                inputField.disabled = false;
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = "<i class='fas fa-paper-plane text-sm md:text-base -ml-0.5'></i>";
+                inputField.focus();
+            }
+        }
     </script>
 </body>
+
 </html>
